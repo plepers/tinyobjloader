@@ -810,6 +810,18 @@ void LoadMtl(std::map<std::string, int> &material_map,
       material.name, static_cast<int>(materials.size())));
   materials.push_back(material);
 }
+    
+    
+    
+void createMat(std::map<std::string, int> &material_map, std::vector<material_t> &materials, const std::string &name ) {
+    material_t material;
+    InitMaterial(material);
+    
+    material.name = name;
+    material_map.insert(std::pair<std::string, int>( material.name, static_cast<int>(materials.size())));
+    materials.push_back(material);
+}
+    
 
 bool MaterialFileReader::operator()(const std::string &matId,
                                     std::vector<material_t> &materials,
@@ -983,6 +995,8 @@ bool LoadObj(std::vector<shape_t> &shapes,       // [output]
       if (material_map.find(namebuf) != material_map.end()) {
         newMaterialId = material_map[namebuf];
       } else {
+        createMat( material_map, materials, namebuf );
+        newMaterialId = material_map[namebuf];
         // { error!! material not found }
       }
 
